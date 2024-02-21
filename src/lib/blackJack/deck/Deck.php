@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJack;
+namespace BlackJack\Deck;
 
 /**
  * デッキ（52枚）クラス
@@ -8,26 +8,18 @@ namespace BlackJack;
  * @author naito
  * @version ver1.0.0 2024/02/12
  */
-class BlackJackDeck
+class Deck
 {
     /* @var array カード種別 */
-    private const CARD_KIND = [
+    public const CARD_KIND = [
         'H',
         'S',
         'D',
         'C',
     ];
 
-    /* @var array カード種別名 */
-    public const CARD_KIND_NAME = [
-        self::CARD_KIND[0] => 'ハート',
-        self::CARD_KIND[1] => 'スペード',
-        self::CARD_KIND[2] => 'ダイヤ',
-        self::CARD_KIND[3] => 'クラブ',
-    ];
-
     /* @var array カード番号 */
-    private const CARD_NUMBER = [
+    public const CARD_NUMBER = [
         'A',
         '2',
         '3',
@@ -53,7 +45,7 @@ class BlackJackDeck
      *
      * @return array<string> ゲームで使用するデッキ
      */
-    public function getDeck(): array
+    public function getShuffleDeck(): array
     {
         $gameDeck = [];
         foreach (self::CARD_KIND as $kind) {

@@ -1,8 +1,8 @@
 <?php
 
-namespace BlackJack;
+namespace BlackJack\Progress;
 
-require_once('ProgressRule.php');
+require_once(__DIR__ . '/IProgressRule.php');
 
 /**
  * 進行ルール判別クラス
@@ -15,9 +15,9 @@ class ProgressRuleEvaluator
     /**
      * コンストラクタ
      *
-     * @param ProgressRule $progressRule 進行ルール
+     * @param IProgressRule $progressRule 進行ルール
      */
-    public function __construct(private ProgressRule $progressRule)
+    public function __construct(private IProgressRule $progressRule)
     {
     }
 

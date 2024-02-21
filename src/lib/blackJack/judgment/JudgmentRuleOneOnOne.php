@@ -1,8 +1,8 @@
 <?php
 
-namespace BlackJack;
+namespace BlackJack\Judgment;
 
-require_once('JudgmentRule.php');
+require_once(__DIR__ . '/IJudgmentRule.php');
 
 /**
  * 勝敗判定（1on1）クラス
@@ -10,7 +10,7 @@ require_once('JudgmentRule.php');
  * @author naito
  * @version ver1.0.0 2024/02/12
  */
-class BlackJackJudgmentOneOnOne implements JudgmentRule
+class JudgmentRuleOneOnOne implements IJudgmentRule
 {
     /* @var array ゲーム参加者 */
     private const GAME_PARTICIPANTS = [
@@ -23,7 +23,7 @@ class BlackJackJudgmentOneOnOne implements JudgmentRule
      *
      * @param array<mixed> $judgment 勝敗判定
      */
-    public function getJudgment(array $judgment): void
+    public function showJudgment(array $judgment): void
     {
         foreach (self::GAME_PARTICIPANTS as $gameParticipant) {
             echo $gameParticipant . 'の得点は' . $judgment[$gameParticipant]['totalRank'] . 'です。' . PHP_EOL;
@@ -38,7 +38,7 @@ class BlackJackJudgmentOneOnOne implements JudgmentRule
         } elseif ($this->isDealerWin($judgment[self::GAME_PARTICIPANTS[0]]['totalRank'], $judgment[self::GAME_PARTICIPANTS[1]]['totalRank'])) {
             echo self::GAME_PARTICIPANTS[0] . 'の負けです。' . PHP_EOL;
         } elseif ($this->isDraw($judgment[self::GAME_PARTICIPANTS[0]]['totalRank'], $judgment[self::GAME_PARTICIPANTS[1]]['totalRank'])) {
-            echo '引き分けです。' . PHP_EOL;
+            echo self::GAME_PARTICIPANTS[0] . 'は引き分けです。' . PHP_EOL;
         }
     }
 

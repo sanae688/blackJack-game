@@ -36,7 +36,7 @@ docker compose stop
 
 ```bash
 # ゲーム開始
-php lib/blackJack/BlackJackGame.php
+php lib/blackJack/game/Game.php
 ```
 
 ## 目的
@@ -47,30 +47,35 @@ php lib/blackJack/BlackJackGame.php
 ```bash
 .
 └── src
-    └── lib
-        └── blackJack
-            ├── BlackJackCardA.php
-            ├── BlackJackCardB.php
-            ├── BlackJackDeck.php
-            ├── BlackJackGame.php
-            ├── BlackJackJudgmentOneOnOne.php
-            ├── BlackJackJudgmentOneOnThree.php
-            ├── BlackJackJudgmentOneOnTwo.php
-            ├── BlackJackParticipantsDealer.php
-            ├── BlackJackParticipantsPlayerA.php
-            ├── BlackJackParticipantsPlayerB.php
-            ├── BlackJackParticipantsPlayerC.php
-            ├── BlackJackProgressOneOnOne.php
-            ├── BlackJackProgressOneOnThree.php
-            ├── BlackJackProgressOneOnTwo.php
-            ├── CardRule.php
-            ├── CardRuleEvaluator.php
-            ├── JudgmentRule.php
-            ├── JudgmentRuleEvaluator.php
-            ├── ParticipantsRule.php
-            ├── ParticipantsRuleEvaluator.php
-            ├── ProgressRule.php
-            └── ProgressRuleEvaluator.php
+    ├── card
+    │   ├── CardName.php
+    │   ├── CardRuleA.php
+    │   ├── CardRuleB.php
+    │   ├── CardRuleEvaluator.php
+    │   └── ICardRule.php
+    ├── deck
+    │   └── Deck.php
+    ├── game
+    │   └── Game.php
+    ├── judgment
+    │   ├── IJudgmentRule.php
+    │   ├── JudgmentRuleEvaluator.php
+    │   ├── JudgmentRuleOneOnOne.php
+    │   ├── JudgmentRuleOneOnThree.php
+    │   └── JudgmentRuleOneOnTwo.php
+    ├── participants
+    │   ├── IParticipantsRule.php
+    │   ├── ParticipantsRuleDealer.php
+    │   ├── ParticipantsRuleEvaluator.php
+    │   ├── ParticipantsRulePlayerA.php
+    │   ├── ParticipantsRulePlayerB.php
+    │   └── ParticipantsRulePlayerC.php
+    └── progress
+        ├── IProgressRule.php
+        ├── ProgressRuleEvaluator.php
+        ├── ProgressRuleOneOnOne.php
+        ├── ProgressRuleOneOnThree.php
+        └── ProgressRuleOneOnTwo.php
 ```
 
 ## 教材

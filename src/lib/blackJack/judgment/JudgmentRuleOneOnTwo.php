@@ -1,8 +1,8 @@
 <?php
 
-namespace BlackJack;
+namespace BlackJack\Judgment;
 
-require_once('JudgmentRule.php');
+require_once(__DIR__ . '/IJudgmentRule.php');
 
 /**
  * 勝敗判定（1on2）クラス
@@ -10,7 +10,7 @@ require_once('JudgmentRule.php');
  * @author naito
  * @version ver1.0.0 2024/02/12
  */
-class BlackJackJudgmentOneOnTwo implements JudgmentRule
+class JudgmentRuleOneOnTwo implements IJudgmentRule
 {
     /* @var array ゲーム参加者 */
     private const GAME_PARTICIPANTS = [
@@ -19,28 +19,34 @@ class BlackJackJudgmentOneOnTwo implements JudgmentRule
         'ディーラー',
     ];
 
+    /* @var array プレイヤー */
+    private const PLAYER = [
+        'プレイヤーA',
+        'プレイヤーB',
+    ];
+
     /**
      * 勝敗判定
      *
      * @param array<mixed> $judgment 勝敗判定
      */
-    public function getJudgment(array $judgment): void
+    public function showJudgment(array $judgment): void
     {
         foreach (self::GAME_PARTICIPANTS as $gameParticipant) {
             echo $gameParticipant . 'の得点は' . $judgment[$gameParticipant]['totalRank'] . 'です。' . PHP_EOL;
         }
 
-        for ($i = 0; $i <= 1; $i++) {
-            if ($this->isPlayerBust($judgment[self::GAME_PARTICIPANTS[$i]]['status'])) {
-                echo self::GAME_PARTICIPANTS[$i] . 'の負けです。' . PHP_EOL;
-            } elseif ($this->isPlayerWin($judgment[self::GAME_PARTICIPANTS[$i]]['status'], $judgment[self::GAME_PARTICIPANTS[2]]['status'])) {
-                echo self::GAME_PARTICIPANTS[$i] . 'の勝ちです！' . PHP_EOL;
-            } elseif ($this->isPlayerWin($judgment[self::GAME_PARTICIPANTS[$i]]['totalRank'], $judgment[self::GAME_PARTICIPANTS[2]]['totalRank'])) {
-                echo self::GAME_PARTICIPANTS[$i] . 'の勝ちです！' . PHP_EOL;
-            } elseif ($this->isDealerWin($judgment[self::GAME_PARTICIPANTS[$i]]['totalRank'], $judgment[self::GAME_PARTICIPANTS[2]]['totalRank'])) {
-                echo self::GAME_PARTICIPANTS[$i] . 'の負けです。' . PHP_EOL;
-            } elseif ($this->isDraw($judgment[self::GAME_PARTICIPANTS[$i]]['totalRank'], $judgment[self::GAME_PARTICIPANTS[2]]['totalRank'])) {
-                echo '引き分けです。' . PHP_EOL;
+        foreach (self::PLAYER as $player) {
+            if ($this->isPlayerBust($judgment[$player]['status'])) {
+                echo $player . 'の負けです。' . PHP_EOL;
+            } elseif ($this->isPlayerWin($judgment[$player]['status'], $judgment[self::GAME_PARTICIPANTS[2]]['status'])) {
+                echo $player . 'の勝ちです！' . PHP_EOL;
+            } elseif ($this->isPlayerWin($judgment[$player]['totalRank'], $judgment[self::GAME_PARTICIPANTS[2]]['totalRank'])) {
+                echo $player . 'の勝ちです！' . PHP_EOL;
+            } elseif ($this->isDealerWin($judgment[$player]['totalRank'], $judgment[self::GAME_PARTICIPANTS[2]]['totalRank'])) {
+                echo $player . 'の負けです。' . PHP_EOL;
+            } elseif ($this->isDraw($judgment[$player]['totalRank'], $judgment[self::GAME_PARTICIPANTS[2]]['totalRank'])) {
+                echo $player . 'は引き分けです。' . PHP_EOL;
             }
         }
     }

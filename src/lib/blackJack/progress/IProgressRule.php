@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJack;
+namespace BlackJack\Progress;
 
 /**
  * 進行ルールインターフェイス
@@ -8,7 +8,7 @@ namespace BlackJack;
  * @author naito
  * @version ver1.0.0 2024/02/12
  */
-interface ProgressRule
+interface IProgressRule
 {
     /**
      * ゲーム本番

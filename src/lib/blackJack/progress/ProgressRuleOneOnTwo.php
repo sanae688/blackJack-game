@@ -1,28 +1,32 @@
 <?php
 
-namespace BlackJack;
+namespace BlackJack\Progress;
 
-require_once('ProgressRule.php');
-require_once('ParticipantsRule.php');
-require_once('ParticipantsRuleEvaluator.php');
-require_once('BlackJackParticipantsDealer.php');
-require_once('BlackJackParticipantsPlayerA.php');
-require_once('BlackJackParticipantsPlayerB.php');
-require_once('BlackJackParticipantsPlayerC.php');
+require_once(__DIR__ . '/IProgressRule.php');
+require_once(__DIR__ . '/../participants/IParticipantsRule.php');
+require_once(__DIR__ . '/../participants/ParticipantsRuleEvaluator.php');
+require_once(__DIR__ . '/../participants/ParticipantsRuleDealer.php');
+require_once(__DIR__ . '/../participants/ParticipantsRulePlayerA.php');
+require_once(__DIR__ . '/../participants/ParticipantsRulePlayerB.php');
+
+use BlackJack\Participants\IParticipantsRule;
+use BlackJack\Participants\ParticipantsRuleEvaluator;
+use BlackJack\Participants\ParticipantsRuleDealer;
+use BlackJack\Participants\ParticipantsRulePlayerA;
+use BlackJack\Participants\ParticipantsRulePlayerB;
 
 /**
- * ディーラー対プレイヤー（1on3）クラス
+ * ディーラー対プレイヤー（1on2）クラス
  *
  * @author naito
  * @version ver1.0.0 2024/02/12
  */
-class BlackJackProgressOneOnThree implements ProgressRule
+class ProgressRuleOneOnTwo implements IProgressRule
 {
     /* @var array ゲーム参加者 */
     private const GAME_PARTICIPANTS = [
         'プレイヤーA',
         'プレイヤーB',
-        'プレイヤーC',
         'ディーラー',
     ];
 
@@ -45,12 +49,12 @@ class BlackJackProgressOneOnThree implements ProgressRule
      */
     public function actualPerformance(array $gameDeck): array
     {
-        $initHands = [];
+        $startHands = [];
         foreach (self::GAME_PARTICIPANTS as $gameParticipant) {
             $participantsRule = $this->getParticipantsRule($gameParticipant);
             $ruleEvaluator = new ParticipantsRuleEvaluator($participantsRule);
-            $initHands[$gameParticipant] = $ruleEvaluator->getInitHand($gameDeck);
-            array_splice($gameDeck, 0, count($initHands[$gameParticipant]));
+            $startHands[$gameParticipant] = $ruleEvaluator->getStartHands($gameDeck);
+            array_splice($gameDeck, 0, count($startHands[$gameParticipant]));
         }
 
         $judgment  = [];
@@ -58,14 +62,14 @@ class BlackJackProgressOneOnThree implements ProgressRule
             $confirmHands = [];
             $participantsRule = $this->getParticipantsRule($gameParticipant);
             $ruleEvaluator = new ParticipantsRuleEvaluator($participantsRule);
-            $confirmHands = $ruleEvaluator->getHand($gameDeck, $initHands[$gameParticipant]);
+            $confirmHands = $ruleEvaluator->getHands($gameDeck, $startHands[$gameParticipant]);
             array_splice($gameDeck, 0, count($confirmHands) - 2);
             $judgment[$gameParticipant]['totalRank'] = array_sum($confirmHands);
 
-            if ($gameParticipant !== self::GAME_PARTICIPANTS[3] && $this->isBust($judgment[$gameParticipant]['totalRank'])) {
+            if ($gameParticipant !== self::GAME_PARTICIPANTS[2] && $this->isBust($judgment[$gameParticipant]['totalRank'])) {
                 $judgment[$gameParticipant]['status'] = self::RESULT_STATUS[self::BUST];
                 continue;
-            } elseif ($gameParticipant === self::GAME_PARTICIPANTS[3] && $this->isBust($judgment[$gameParticipant]['totalRank'])) {
+            } elseif ($gameParticipant === self::GAME_PARTICIPANTS[2] && $this->isBust($judgment[$gameParticipant]['totalRank'])) {
                 $judgment[$gameParticipant]['status'] = self::RESULT_STATUS[self::BUST];
                 break;
             }
@@ -80,17 +84,21 @@ class BlackJackProgressOneOnThree implements ProgressRule
      * 参加者ルールを取得
      *
      * @param string $gameParticipant ゲーム参加者
-     * @return ParticipantsRule 参加者ルールインスタンス
+     * @return IParticipantsRule 参加者ルールインスタンス
      */
-    private function getParticipantsRule(string $gameParticipant): ParticipantsRule
+    private function getParticipantsRule(string $gameParticipant): IParticipantsRule
     {
-        $participantsRule = new BlackJackParticipantsPlayerA();
-        if ($gameParticipant === self::GAME_PARTICIPANTS[1]) {
-            $participantsRule = new BlackJackParticipantsPlayerB();
-        } elseif ($gameParticipant === self::GAME_PARTICIPANTS[2]) {
-            $participantsRule = new BlackJackParticipantsPlayerC();
-        } elseif ($gameParticipant === self::GAME_PARTICIPANTS[3]) {
-            $participantsRule = new BlackJackParticipantsDealer();
+        $participantsRule = '';
+        switch ($gameParticipant) {
+            case self::GAME_PARTICIPANTS[0]:
+                $participantsRule = new ParticipantsRulePlayerA();
+                break;
+            case self::GAME_PARTICIPANTS[1]:
+                $participantsRule = new ParticipantsRulePlayerB();
+                break;
+            case self::GAME_PARTICIPANTS[2]:
+                $participantsRule = new ParticipantsRuleDealer();
+                break;
         }
 
         return $participantsRule;
