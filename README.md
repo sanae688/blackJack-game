@@ -47,35 +47,37 @@ php lib/blackJack/game/Game.php
 ```bash
 .
 └── src
-    ├── card
-    │   ├── CardName.php
-    │   ├── CardRuleA.php
-    │   ├── CardRuleB.php
-    │   ├── CardRuleEvaluator.php
-    │   └── ICardRule.php
-    ├── deck
-    │   └── Deck.php
-    ├── game
-    │   └── Game.php
-    ├── judgment
-    │   ├── IJudgmentRule.php
-    │   ├── JudgmentRuleEvaluator.php
-    │   ├── JudgmentRuleOneOnOne.php
-    │   ├── JudgmentRuleOneOnThree.php
-    │   └── JudgmentRuleOneOnTwo.php
-    ├── participants
-    │   ├── IParticipantsRule.php
-    │   ├── ParticipantsRuleDealer.php
-    │   ├── ParticipantsRuleEvaluator.php
-    │   ├── ParticipantsRulePlayerA.php
-    │   ├── ParticipantsRulePlayerB.php
-    │   └── ParticipantsRulePlayerC.php
-    └── progress
-        ├── IProgressRule.php
-        ├── ProgressRuleEvaluator.php
-        ├── ProgressRuleOneOnOne.php
-        ├── ProgressRuleOneOnThree.php
-        └── ProgressRuleOneOnTwo.php
+    └── lib
+        └── blackJack
+            ├── card
+            │   ├── CardName.php
+            │   ├── CardRuleA.php
+            │   ├── CardRuleB.php
+            │   ├── CardRuleEvaluator.php
+            │   └── ICardRule.php
+            ├── deck
+            │   └── Deck.php
+            ├── game
+            │   └── Game.php
+            ├── judgment
+            │   ├── IJudgmentRule.php
+            │   ├── JudgmentRuleEvaluator.php
+            │   ├── JudgmentRuleOneOnOne.php
+            │   ├── JudgmentRuleOneOnThree.php
+            │   └── JudgmentRuleOneOnTwo.php
+            ├── participants
+            │   ├── IParticipantsRule.php
+            │   ├── ParticipantsRuleDealer.php
+            │   ├── ParticipantsRuleEvaluator.php
+            │   ├── ParticipantsRulePlayerA.php
+            │   ├── ParticipantsRulePlayerB.php
+            │   └── ParticipantsRulePlayerC.php
+            └── progress
+                ├── IProgressRule.php
+                ├── ProgressRuleEvaluator.php
+                ├── ProgressRuleOneOnOne.php
+                ├── ProgressRuleOneOnThree.php
+                └── ProgressRuleOneOnTwo.php
 ```
 
 ## 教材
